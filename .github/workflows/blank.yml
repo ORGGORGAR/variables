@@ -4,6 +4,7 @@ on:
 env:
   cat_name: "Puszek"
   WORKFLOW_VAR: "workflow-scope-value"
+  # UWAGA: NIE dodawaj JOB_VAR ani STEP_VAR tutaj!
 
 jobs:
   display-variables:
@@ -25,8 +26,6 @@ jobs:
         echo "Should be variable in step scope:$STEP_VAR"
     
     - name: Use variables 2
-      env:
-        STEP_VAR: "step-scope-value"
       run: |
         echo "Alice has a cat named ${{ env.cat_name }}"
         echo "Should be variable in workflow scope:$WORKFLOW_VAR"
@@ -35,13 +34,11 @@ jobs:
 
   display-variables2:
     runs-on: ubuntu-latest
-    env:
-      JOB_VAR: "job-scope-value"
+    # NIE dodajemy env: tutaj (aż na poziom jobu)!
     steps:
     - name: Use variables in display-variables2
       run: |
         echo "Should be variable in workflow scope:$WORKFLOW_VAR"
         echo "Should NOT be variable in job scope:$JOB_VAR"
         echo "Should NOT be variable in step scope:$STEP_VAR"
-        echo "Wszystkie zmienne środowiskowe:"
         env
