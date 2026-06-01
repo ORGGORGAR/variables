@@ -1,0 +1,28 @@
+name: passing job values
+
+# Controls when the workflow will run
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  
+jobs:
+  producer: #⬅️ Producer JOB
+    runs-on: ubuntu-latest
+    steps:
+      - name: Make a sentence #⬅️ STEP in the producer JOB
+        id: sentence_maker
+        run: |
+          echo "SENTENCE='Ala ma kota Ptysia'" >> $GITHUB_OUTPUT
+    outputs: #⬅️ This is at the JOB level
+      full_sentence: ${{ steps.sentence_maker.outputs.SENTENCE }} #⬅️Here we reference by the variable name in the step that created the variable
+
+  consumer: #⬅️ Consumer JOB
+    needs: [producer] #⬅️ Need to specify dependency on the JOB
+    runs-on: ubuntu-latest
+    env:
+      message: ${{ needs.producer.outputs.full_sentence }} #⬅️ Here we reference by the JOB output name.
+    steps:
+      - name: Print the message
+        #⬅️ We can do this because we set the env `message`
+        run: |
+          echo $message 
