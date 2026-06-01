@@ -1,4 +1,4 @@
-name: passing job values
+name: passing job values output
 
 # Controls when the workflow will run
 on:
