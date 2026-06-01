@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: passing job values 1
+name: passing job values exc
 
 # Controls when the workflow will run
 on:
@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: Set color
         id: color-selector
-        run: <SET VARIABLE>
+        run: echo "COLOR=blue" >> "$GITHUB_ENV"
       - name: Get color
         run: echo "The selected color is $COLOR"
         
@@ -23,7 +23,7 @@ jobs:
       - name: Make a sentence
         id: sentence_maker
         run: |
-            # TODO: SET ENVIRONMENT VARIABLE
+            echo "message=Hello from producer job" >> "$GITHUB_OUTPUT"
 
   consumer:
     runs-on: ubuntu-latest
@@ -38,7 +38,7 @@ jobs:
     steps:
       - shell: bash
         run: |
-          expr 3 + 7 > <RESULT_FILE_NAME>
+          expr 3 + 7 > result.txt
 
   job_2:
     name: Multiply by 9
@@ -47,5 +47,5 @@ jobs:
     steps:
       - shell: bash
         run: |
-          value=`cat <ARTIFACT_FILE_NAME>`
+          value=`cat result.txt`
           echo $(expr $value \* 9) 
