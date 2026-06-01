@@ -47,5 +47,5 @@ jobs:
     steps:
       - shell: bash
         run: |
-          value=`cat D:\Programming\GH_Szkolenie\variables\result.txt`
+          value=`cat C:\result.txt`
           echo $(expr $value \* 9) 
