@@ -16,11 +16,25 @@ on:
         description: Environment
         required: true
         type: environment
+      matrix:
+        description: Matrix as JSON
+        required: true
+        type: string
+        default: '{"version":[20,22,24],"os":["ubuntu-latest","windows-latest"]}'
+
 jobs:
   log-the-inputs:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix: ${{ fromJSON(inputs.matrix) }}
     steps:
-      - run: |
+      - name: Print matrix values
+        run: |
+          echo "Version: ${{ matrix.version }}"
+          echo "OS: ${{ matrix.os }}"
+
+      - name: Log the inputs
+        run: |
           echo "Log level: $LEVEL"
           echo "Environment: $ENVIRONMENT"
         env:
